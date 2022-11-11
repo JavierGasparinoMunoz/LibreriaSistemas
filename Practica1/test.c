@@ -19,7 +19,11 @@ int comprobarArgumentos(int argc, char *argv[]){
                 lineas=10;
             // En el caso en el que si se reciba el numero de lineas por argumento, la variable lineas valdra el valor introducido
             } else {
-                lineas= atoi(*argv[1]);
+                if (isdigit(*argv[1])){
+                    lineas= atoi(*argv[1]);
+                } else {
+                    errx(1, "El segundo argumento debe ser un numero");
+                }
             }
         // Si el primer argumento no es el metodo valido que se pueda realizar saltara un mensaje de error
         } else {
@@ -40,9 +44,7 @@ int comprobarStrings(char *argv[]){
         return 3;
     }else{
         errx(1, "Error"); 
-    }
-    
-    
+    } 
 }
 
 //Metodo main del programa
