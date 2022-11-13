@@ -2,6 +2,7 @@
 #include <string.h>
 #include "libreria.h"
 #include <err.h>
+#include <stdlib.h>
 
 //Metodo encargado de comprobar que el numero y el tipo de los argumentos es valido
 int comprobarArgumentos(int argc, char *argv[]){
@@ -13,17 +14,13 @@ int comprobarArgumentos(int argc, char *argv[]){
     //Si se reciben 1 o 2 argumentos entrara en el ese     
     } else { 
         // El primer argumento debe ser el metodo a elegir, por lo que se comprueba que este no sea un numero y sea head, tail o lonlines.
-        if (!isdigit(*argv[0]) && ((strcmp(*argv[0],"head")) || (strcmp(*argv[0],"tail")) || (strcmp(*argv[0],"longlines")))){
+        if (((strcmp(*argv[0],"head")) || (strcmp(*argv[0],"tail")) || (strcmp(*argv[0],"longlines")))){
             // En el caso en el que solo se reciba el metodo elegido como argumento, lineas va a valer 10 por defecto
             if (argc==1){
                 lineas=10;
             // En el caso en el que si se reciba el numero de lineas por argumento, la variable lineas valdra el valor introducido
             } else {
-                if (isdigit(*argv[1])){
-                    lineas= atoi(*argv[1]);
-                } else {
-                    errx(1, "El segundo argumento debe ser un numero");
-                }
+                lineas= atoi(*argv[1]);
             }
         // Si el primer argumento no es el metodo valido que se pueda realizar saltara un mensaje de error
         } else {
