@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
     // n se inicializa
     n = comprobarArgumentos(argc, argv);
     
+    //ifs encargado de redireccionar a las funciones head, tail y longlines
     if (strcmp(argv[1], "head")==0)
     {
         head(n);
@@ -66,5 +67,7 @@ int main(int argc, char *argv[])
     {
         errx(1, "Error \n");
     }
+
+    return 0;
     
 }

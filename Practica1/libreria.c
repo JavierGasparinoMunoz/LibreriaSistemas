@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 int buscarNuevoMenor(char **lineasLongLines, int n);
-void Ordenar(char *lineasLongLines[], int n);
 
 // Metodo head, este cogera las n primeras lineas y las mostrara
 int head(int N)
@@ -45,6 +44,7 @@ int head(int N)
 int tail(int N)
 {
     int indice;
+    //Se reserva memoria con un array estatico y un dinamico
     char *lineasTail[N];
     for (size_t i = 0; i < N; i++)
     {
@@ -56,6 +56,7 @@ int tail(int N)
     {
         indice = 0;
         char buffer[1024];
+        //Se va copiando el contenido de buffer en las lineas mientras se introducen hasta que llegas a N
         while (fgets(buffer, 1024, stdin) != NULL)
         {
             strcpy(lineasTail[indice],buffer);
@@ -68,6 +69,8 @@ int tail(int N)
                 indice = 0;
             }
         }
+        //A partir de donde se quedo el indice se va imprimiendo
+        printf("Resultado: \n");
         for (size_t i = 0; i < N; i++)
         {
             printf("%s", lineasTail[indice]);
@@ -91,6 +94,7 @@ int tail(int N)
     {
         errx(1, "n no puede ser un numero negativo \n");
     }
+    //Se libera memoria dinamica
     for (size_t i = 0; i < N; i++)
     {
         free(lineasTail[i]);
@@ -102,6 +106,7 @@ int tail(int N)
 // Metodo longlines
 int longlines(int N)
 {
+    //Se reserva memoria con un array estatico y un dinamico
     char *lineasLongLines[N];
     for (size_t i = 0; i < N; i++)
     {
@@ -112,24 +117,32 @@ int longlines(int N)
         int count;
         count = 0;
         char buffer[1024];
+        //Bucle encargado de introducir las lineas de texto
         while (fgets(buffer, 1024, stdin) != NULL)
         {
+            //Se introduciran las N lineas sin nunguna condicion
             if (count < N-1)
             {
                 strcpy(lineasLongLines[count], buffer);
                 count++;
             }
+            //En este else se introde una linea en el array si y solo si la linea que se introduce
+            //en la entrada es mayor al menor almacenado
             else
             {
+                //longitudBuffer almacena la longitd de la linea de texto pasada,
+                //menor almacena donde se encuentra la linea menor
                 int longitudBuffer, menor;
                 longitudBuffer = strlen(buffer);
                 menor = buscarNuevoMenor(lineasLongLines, N);
+                //Se va sustituyendo el valor de buffer en la linea con menor longitud
                 if (longitudBuffer > strlen(lineasLongLines[menor]))
                 {
                     strcpy(lineasLongLines[menor],buffer);
                 }
             }
         }
+        //Algoritmo de la burbuja, algoritmo tipico para la ordenacion de un array
         char texto[1024];
         for (size_t i = 0; i < N; i++)
         {
@@ -143,6 +156,8 @@ int longlines(int N)
                 }
             }
         }
+        //Se recorre lineas longLines y se van imprimiendo los N mayores 
+        printf("Resultado: \n");
         for (size_t i = 0; i < N; i++)
         {
             printf("%s", lineasLongLines[i]);
@@ -157,31 +172,24 @@ int longlines(int N)
     {
         errx(1, "n no puede ser un numero negativo \n");
     }
+    //Se libera memoria dinamica
     for (size_t i = 0; i < N; i++)
     {
         free(lineasLongLines[i]);
     }
     return 0;
 }
-/*
-// Metodo de sustituir el antiguo menor por el nuevo
-int continuacionLongLines(char *lineasLongLines[], char *buffer, int n)
-{
-    int longitudBuffer, menor;
-    longitudBuffer = strlen(*buffer);
-    menor = buscarNuevoMenor(lineasLongLines, n);
-    if (longitudBuffer > strlen(*linesLongLines[menor]))
-    {
-        *lineasLongLines[menor] = *buffer;
-    }
-}*/
 
 // Metodo encargado de encontrar la línea que tiene menor longitud
 int buscarNuevoMenor(char **lineasLongLines, int n)
 {
+    //valor tendra el valor de la longitd menor
+    //indice tendra el indice del array
     int valor, indice;
     valor = 1024;
     indice = 0;
+    //Se recorre el array pasado y se va guardando en valor el de longitd menor y 
+    //en indice la posicion de esta linea, con esto siempre te quedas con el menor
     for (size_t i = 0; i < n; i++)
     {
         if (strlen(lineasLongLines[i]) < valor)
@@ -192,45 +200,3 @@ int buscarNuevoMenor(char **lineasLongLines, int n)
     }
     return indice;
 }
-/*
-// Metodo encargado de ordenar el array
-void Ordenar(char *lineasLongLines[], int n)
-{
-    char *texto;
-    for (size_t i = 0; i < n; i++)
-    {
-        for (size_t j = 0; i < n; i++)
-        {
-            if (strlen(lineasLongLines[j + 1]) > strlen(lineasLongLines[j]))
-            {
-                texto = lineasLongLines[j];
-                *lineasLongLines[j] = *lineasLongLines[j + 1];
-                lineasLongLines[j + 1] = texto;
-            }
-        }
-    }
-}
-*/
-
-/*
-// Metodo encargado de meter las ultimas n lineas de la entrada estandar
-int incializarTail(char *lineasTail[], int n)
-{
-    int count;
-    count = 0;
-    char buffer[1024];
-    while (fgets(buffer, 1024, stdin) != NULL)
-    {
-        *lineasTail[count] = *buffer;
-        if (count < n)
-        {
-            count++;
-        }
-        else
-        {
-            count = 0;
-        }
-    }
-    return count;
-}
-*/
